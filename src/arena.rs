@@ -9,6 +9,7 @@ use core::{
     num::NonZeroUsize,
     ops::{Index, IndexMut},
     slice,
+    ops::Deref,
 };
 
 #[cfg(feature = "par_iter")]
@@ -23,6 +24,7 @@ use std::{
     num::NonZeroUsize,
     ops::{Index, IndexMut},
     slice,
+    ops::Deref,
 };
 
 use crate::{node::NodeData, Node, NodeId};
@@ -362,6 +364,14 @@ impl<T> Arena<T> {
         }
 
         first
+    }
+}
+
+impl<T> Deref for Arena<T> {
+    type Target = [Node<T>];
+
+    fn deref(&self) -> &Self::Target {
+        self.nodes.as_slice()
     }
 }
 
